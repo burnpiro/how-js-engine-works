@@ -1,0 +1,639 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>reveal.js</title>
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/beige.css">
+  <link rel="stylesheet" href="assets/custom.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+    <section>
+      <h2>Jak działa silnik JavaScript i dlaczego twoja przeglądarka zabiera cały RAM</h2>
+      <small>Kemal Erdem | <a href="https://github.com/burnpiro">github.com/burnpiro</a></small>
+      <aside class="notes"></aside>
+    </section>
+
+    <section>
+      <section>
+        <h2>Czy JS jest wolny?</h2>
+        <p class="fragment">Magiczne 60fps czyli 16.66ms/frame</p>
+        <aside class="notes">JS vs Java, regex strings JS, Graphs Java</aside>
+      </section>
+    </section>
+
+    <section>
+      <h2>Dlaczego aplikacje webowe są wolne?</h2>
+      <p class="fragment">Twój kod jest wolny</p>
+      <p class="fragment">DOM rendering</p>
+      <aside class="notes">Szybkość nie zależy od frameworka<br/>
+      Bardzo dużo programistów nie ma pojęcia w czym pisze</aside>
+    </section>
+
+    <section>
+      <p>Mit o odczytach/zapisach w DOMie</p>
+      <pre><code class="javascript" data-trim contenteditable tab-replace>
+for (i=0;i<10000;i++) {
+  if(node.innerText !== value) {
+    node.innerText = value;
+  }
+}
+					</code></pre>
+      <p>vs</p>
+      <pre><code class="javascript" data-trim contenteditable>
+for (i=0;i<10000;i++) node.innerText;
+for (i=0;i<10000;i++) node.innerText = value;
+					</code></pre>
+      <aside class="notes">ReactNext 2016<br/>
+        No difference now (except Safari)<br/>
+        There is a difference but wait to proper slide
+      </aside>
+    </section>
+
+    <section>
+      <h2>Jak działa przeglądarka</h2>
+      <div class="fragment">
+        <p>Pixel to Screen Pipeline</p>
+        <img src="assets/frame-full.png"/>
+        <pre class="fragment"><code class="css" data-trim contenteditable>
+							body a, .nav a, .nav > .nav__link a, .myLinkElement
+						</code></pre>
+      </div>
+      <aside class="notes">Javascript code and logic, most of DOM changes are from here, unavoidable<br/>
+        Style, calculate final style which should be applied<br/>
+        Layout (Reflow), browser recalculates how much space and where to put elements, elements may affect others<br/>
+        Paint, filling pixels, painting elements with text colors ect<br/>
+        Composite, placing elements on screen in right order
+      </aside>
+    </section>
+
+    <section>
+      <h2>Skracanie ścieżki</h2>
+      <img src="assets/frame-no-layout.png"/>
+      <a class="fragment" href="https://csstriggers.com/">https://csstriggers.com/</a>
+      <img class="fragment" src="assets/frame-no-layout-paint.png"/>
+      <aside class="notes">Don't change Layout<br/>
+        Assets consuming<br/>
+        Use transform and opacity<br/>
+        Move by using will-change or translateZ<br/>
+      </aside>
+    </section>
+
+    <section>
+      <h2>Jak uzyskać 60fps?</h2>
+      <pre class="fragment"><code class="javascript" data-trim contenteditable>
+						function doAwesomeThings(timestampId) {
+						 // awesome things
+						}
+						window.requestAnimationFrame(doAwesomeThings)
+					</code></pre>
+      <pre class="fragment"><code class="javascript" data-trim contenteditable>
+						let timeoutId = window.setTimeout(doAwesomeThings, 0)
+					</code></pre>
+      <img class="fragment timeoutSize" src="assets/settimeout.png"/>
+      <aside class="notes">JIT (Just In Time) compiler<br/>
+        Separate login from rendering<br/>
+      </aside>
+    </section>
+
+    <section>
+      <h2>Dlaczego to takie ważne?</h2>
+      <pre class="fragment"><code class="hljs" data-trim contenteditable>
+						window.cancelAnimationFrame(requestId)
+					</code></pre>
+      <div class="fragment">
+        <p>jQuery rewrite</p>
+        <pre><code class="hljs" data-trim contenteditable>
+							https://github.com/gnarf/jquery-requestAnimationFrame
+						</code></pre>
+      </div>
+      <aside class="notes">If to long we can cancel<br/>
+        Assets consuming<br/>
+      </aside>
+    </section>
+
+    <section>
+      <h2>Twoje style są zbyt skomplikowane</h2>
+      <blockquote cite="https://docs.google.com/document/d/1vEW86DaeVs4uQzNFI5R-_xS9TcS1Cs_EUsHRSgCHGu8/view" style="font-size: 24px">
+        &ldquo;Roughly 50% of the time used to calculate the computed style for an element is used to match selectors,
+        and the other half of the time is used for constructing the RenderStyle.&rdquo;
+        <a style="font-size: 24px; font-weight: bold">- Rune Lillesveen, Opera</a>
+      </blockquote>
+      <pre class="fragment"><code class="css" data-trim contenteditable>
+						.titleContainer
+					</code></pre>
+      <div class="fragment">
+						<pre><code class="css" data-trim contenteditable>
+							div:nth-last-of-type(3n+1) .titleContainer
+						</code></pre>
+      </div>
+      </aside>
+    </section>
+
+    <section>
+      <h2>Wracamy do przykładu</h2>
+      <pre><code class="javascript" data-trim contenteditable>
+        for (var i = 0; i < paragraphs.length; i++) {
+          paragraphs[i].style.width = box.offsetWidth + 'px';
+        }
+        </code></pre>
+      <pre class="fragment"><code class="javascript" data-trim contenteditable>
+        // Read.
+        var width = box.offsetWidth;
+
+        function resizeAllParagraphsToMatchBlockWidth() {
+          for (var i = 0; i < paragraphs.length; i++) {
+            // Now write.
+            paragraphs[i].style.width = width + 'px';
+          }
+        }
+        </code></pre>
+      <aside class="notes">Layout is scoped globally<br/>
+        No need to run it manually<br/>
+      </aside>
+    </section>
+
+    <section>
+      <h2>Jak React może ci pomóc?</h2>
+      <img src="assets/react-logo.png"/>
+      <aside class="notes">Handles whole logic behind that and tries to minimize number of layouts<br/>
+        Diffing algorithm called Stack Reconciler<br/>
+        Algorytm "Pojednania"
+      </aside>
+    </section>
+
+    <section>
+      <h2>Virtual DOM !== Shadow DOM</h2>
+      <aside class="notes">Handles whole logic behind that and tries to minimize number of layouts<br/>
+        Shadow DOM is about web components, and encapsulation<br/>
+        Could use both<br/>
+      </aside>
+    </section>
+
+    <section>
+      <img src="assets/trees.jpg"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section>
+      <h3>Szybki i lekki, <br/><small>ponad 200tyś elementów na zwykłym laptopie,</small></h3>
+      <h3>Unikanie Reflow,</h3>
+      <h3>Stack Reconsiler</h3>
+    </section>
+
+    <section>
+      <pre><code class="hljs" data-trim contenteditable>
+        ReactDOM.render(
+          &lt;App />,
+          document.getElementById('root')
+        )
+        </code></pre>
+      <aside class="notes">
+        Rozpoczyna pracę od głównego elementu<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/initial-render.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-step1.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-step2.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-step3.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-step4.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-step5.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-step6.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-step7.png"/>
+      <aside class="notes">Można dodać <br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-step8.png"/>
+      <aside class="notes">Można dodać <br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-step9.png"/>
+      <aside class="notes">Można dodać <br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-step10.png"/>
+      <aside class="notes">Można dodać <br/>
+      </aside>
+    </section>
+
+    <section>
+      <div style="display: flex; align-items: stretch; width: 100%">
+      <pre flex><code class="html" data-trim style="height: 65vh; max-height: 65vh">
+        <div>
+          <button>
+            Change Value
+          </button>
+          <ul>
+            <li>Apple</li>
+            <li>Banana</li>
+            <li>Peach</li>
+          </ul>
+        </div>
+        </code></pre>
+        <pre flex><code class="html" data-trim style="max-height: 65vh; height: 65vh">
+        &lt;App>
+          <div>
+            <button>
+              Change Value
+            </button>
+            &lt;List>
+              <ul>
+                <li>Apple</li>
+                <li>Banana</li>
+                <li>Peach</li>
+              </ul>
+            &lt;/List>
+          </div>
+        &lt;/App>
+        </code></pre>
+        <pre flex><code class="javascript" data-trim style="max-height: 65vh">
+
+        React.createElement(
+          App,
+          null,
+          React.createElement(
+            "div",
+            null,
+            React.createElement(
+              "button",
+              null,
+              "Change Value"
+            ),
+            React.createElement(
+              List,
+              null,
+              React.createElement(
+                "ul",
+                null,
+                React.createElement(
+                  "li",
+                  null,
+                  "Apple"
+                ),
+                React.createElement(
+                  "li",
+                  null,
+                  "Banana"
+                ),
+                React.createElement(
+                  "li",
+                  null,
+                  "Peach"
+                )
+              )
+            )
+          )
+        )
+        </code></pre>
+      </div>
+      <aside class="notes">
+        Virtual DOM nie przechwuje elementów takich jak DOM<br/>
+        JSX jest tłumaczony do JSa<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-state-change1.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-state-change2.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-state-change3.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-state-change4.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-state-change5.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-state-change6.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-state-change7.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-state-change8.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <h3 class="fragment">Reflow!!!</h3>
+      <img src="assets/render-state-change9.png"/>
+      <aside class="notes">Virtual DOM is fast and can render 200 ths nodes in a sec<br/>
+      </aside>
+    </section>
+
+    <section>
+      <pre><code class="javascript" data-trim contenteditable>
+        renderListElements() {
+          return this.state.list.map(element =>
+            &lt;li key={element.id}>{element.title}&lt;/li>)
+        }
+        render () {
+          return (
+            <div>
+              <ul>
+                {this.renderListElements()}
+              </ul>
+            </div>
+          )
+        }
+        </code></pre>
+      <aside class="notes">
+        Dzięki JSX moża zwracać jako element bo to jest element<br/>
+        Dzięki JSX moża zwracać jako element bo to jest element<br/>
+      </aside>
+    </section>
+
+    <section>
+      <h2 style="text-transform: none">Najlepszy algorytm O(N^3)</h2>
+      <h2 style="text-transform: none">React O(N)</h2>
+      <aside class="notes">
+        Złożoność algorytmu minimalnego<br/>
+        React nie ma magii<br/>
+        Optimization base on apps<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-state-reconciler.png"/>
+      <aside class="notes">
+        Layer by Layer<br/>
+        Nodes cannot move between layers, create new nodes<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/render-state-reconciler2.png"/>
+      <aside class="notes">
+        Check object type<br/>
+        Don't want to reuse old nodes when new object type<br/>
+      </aside>
+    </section>
+
+    <section>
+      <h3>Reuse</h3>
+      <div style="display: flex; align-items: stretch">
+      <pre flex><code class="html" data-trim style="height: 55vh; max-height: 55vh">
+        &lt;li key="A">{element.title}&lt;/li>
+        &lt;li key="B">{element.title}&lt;/li>
+        &lt;li key="C">{element.title}&lt;/li>
+        &lt;li key="D">{element.title}&lt;/li>
+        &lt;li key="E">{element.title}&lt;/li>
+        </code></pre>
+        <pre flex><code class="html" data-trim style="height: 55vh; max-height: 55vh">
+        &lt;li key="A">{element.title}&lt;/li>
+        &lt;li key="XYZ">{element.title}&lt;/li>
+        &lt;li key="B">{element.title}&lt;/li>
+        &lt;li key="C">{element.title}&lt;/li>
+        &lt;li key="D">{element.title}&lt;/li>
+        &lt;li key="E">{element.title}&lt;/li>
+        </code></pre>
+      </div>
+      <aside class="notes">
+        Nie tworzy nowej listy, dodaje element<br/>
+      </aside>
+    </section>
+
+    <section>
+      <h3>Klucze sa ważne</h3>
+      <div style="display: flex; align-items: stretch">
+      <pre flex><code class="html" data-trim style="height: 55vh; max-height: 55vh">
+        &lt;li key="A">{element.title}&lt;/li>
+        &lt;li key="B">{element.title}&lt;/li>
+        &lt;li key="C">{element.title}&lt;/li>
+        &lt;li key="D">{element.title}&lt;/li>
+        &lt;li key="E">{element.title}&lt;/li>
+        </code></pre>
+        <pre flex><code class="html" data-trim style="height: 55vh; max-height: 55vh">
+        &lt;li key="1">{element.title}&lt;/li>
+        &lt;li key="2">{element.title}&lt;/li>
+        &lt;li key="3">{element.title}&lt;/li>
+        &lt;li key="4">{element.title}&lt;/li>
+        &lt;li key="5">{element.title}&lt;/li>
+        </code></pre>
+      </div>
+      <aside class="notes">
+        Rerender each element of the list<br/>
+      </aside>
+    </section>
+
+    <section>
+      <h2 style="text-transform: none">shouldComponentUpdate()</h2>
+      <pre><code class="javascript" data-trim contenteditable>
+        shouldComponentUpdate(nextProps, nextState) {
+          return this.state.list !== nextState.list
+        }
+
+        [...]
+
+        handleClick() {
+          this.setState((prevState) => {
+            let nextState = prevState.list
+            nextState.push({
+              id: 'four',
+              title: 'Orange'
+            })
+            return nextState
+          })
+        }
+        </code></pre>
+      <aside class="notes">
+        JS magic, both pointing to the same thing so they're equal<br/>
+      </aside>
+    </section>
+
+    <section>
+      <div style="display: flex; align-items: stretch">
+      <pre flex><code class="html" data-trim style="height: 55vh; max-height: 55vh">
+        this.state.list
+
+        [
+          {
+            id: 'one',
+            title: 'Apple'
+          },
+          {
+            id: 'two',
+            title: 'Banana'
+          },
+          {
+            id: 'three',
+            title: 'Peach'
+          }
+        ]
+        </code></pre>
+        <pre flex><code class="html" data-trim style="height: 55vh; max-height: 55vh">
+        nextState.list
+
+        [
+          {
+            id: 'one',
+            title: 'Apple'
+          },
+          {
+            id: 'two',
+            title: 'Banana'
+          },
+          {
+            id: 'three',
+            title: 'Peach'
+          }
+        ]
+        </code></pre>
+      </div>
+      <aside class="notes">
+        New Object it always new<br/>
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/child-state1.png"/>
+      <aside class="notes">
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <img src="assets/child-state2.png"/>
+      <aside class="notes">
+        or connect()<br/>
+      </aside>
+    </section>
+
+    <section data-background="assets/sean-bean.jpg">
+      <h1 style="color: #fff; text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  ">Fiber is coming!</h1>
+    </section>
+
+    <section>
+      <div style="text-align: left; padding-left: 15vw">
+        <h4 style="text-transform: none">Layout Pipeline</h4>
+        <h4 style="text-transform: none">Co to jest Reflow</h4>
+        <h4 style="text-transform: none">requestAnimationFrame() as setTimeout()</h4>
+        <h4 style="text-transform: none">Jak przeglądarka interpretuje style</h4>
+        <h4 style="text-transform: none">Virtual DOM</h4>
+        <h4 style="text-transform: none">Stack Reconciler</h4>
+        <h4 style="text-transform: none">Co to jest JSX i jak działa</h4>
+        <h4 style="text-transform: none">Optymalizacja w ReactJS</h4>
+      </div>
+    </section>
+
+    <section>
+      <h2>Dziękuję</h2>
+      <h4>Pytania?</h4>
+      <small>Kemal Erdem | <a href="https://github.com/burnpiro">github.com/burnpiro</a></small>
+    </section>
+  </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+  // More info https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    history: true,
+
+    // More info https://github.com/hakimel/reveal.js#dependencies
+    dependencies: [
+      {src: 'plugin/markdown/marked.js'},
+      {src: 'plugin/markdown/markdown.js'},
+      {src: 'plugin/notes/notes.js', async: true},
+      {
+        src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+        hljs.initHighlightingOnLoad();
+      }
+      }
+    ]
+  });
+</script>
+</body>
+</html>

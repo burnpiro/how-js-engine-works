@@ -1,0 +1,20 @@
+body:after {
+  position: fixed;
+  top: 3vh;
+  right: 3vw;
+  background: url(QOlogoText.png) no-repeat;
+  background-size: 15vh 8.8vh;
+  width: 15vh;
+  height: 8.8vh;
+  content:"";
+}
+
+img {
+  border: 0 !important;
+  box-shadow: none !important;
+  max-height: 60vh !important;
+}
+
+.timeoutSize {
+  max-height: 30vh !important;
+}
