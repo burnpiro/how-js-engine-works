@@ -26,29 +26,34 @@
 <div class="reveal">
   <div class="slides">
     <section>
-      <h2>Jak działa silnik JavaScript i dlaczego twoja przeglądarka zabiera cały RAM</h2>
+      <h2>Javascript the darker side of the engine</h2>
       <small>Kemal Erdem | <a href="https://github.com/burnpiro">github.com/burnpiro</a></small>
       <aside class="notes"></aside>
     </section>
 
     <section>
       <section>
-        <h2>Czy JS jest wolny?</h2>
-        <p class="fragment">Magiczne 60fps czyli 16.66ms/frame</p>
-        <aside class="notes">JS vs Java, regex strings JS, Graphs Java</aside>
+        <h2>JS is a weird language</h2>
+        <p class="fragment">Many implementations</p>
+        <p class="fragment">Multiple platforms</p>
+        <aside class="notes">
+          JS is described by TC39 comity and then implemented by engine providers<br/>
+          There are miltiple JS engines like Chakra, V8, JSC, JerryScript, SpiderMonkey
+          JS is supported on many platforms like x86, x64, arm, powerpc, mips<br/>
+        </aside>
       </section>
     </section>
 
     <section>
-      <h2>Dlaczego aplikacje webowe są wolne?</h2>
-      <p class="fragment">Twój kod jest wolny</p>
-      <p class="fragment">DOM rendering</p>
-      <aside class="notes">Szybkość nie zależy od frameworka<br/>
-      Bardzo dużo programistów nie ma pojęcia w czym pisze</aside>
+      <h2>Compiled or Interpreted?</h2>
+      <p class="fragment">It depends...</p>
+      <aside class="notes">
+        Each engine is different but some of them didn't even interpret JS just compile it
+      </aside>
     </section>
 
     <section>
-      <p>Mit o odczytach/zapisach w DOMie</p>
+      <p>Main workflow of JS Engine</p>
       <pre><code class="javascript" data-trim contenteditable tab-replace>
 for (i=0;i<10000;i++) {
   if(node.innerText !== value) {
@@ -68,13 +73,19 @@ for (i=0;i<10000;i++) node.innerText = value;
     </section>
 
     <section>
-      <h2>Jak działa przeglądarka</h2>
+      <h2>AST (Abstract Syntax Tree)</h2>
+        <img src="assets/AST-simple.svg"/>
       <div class="fragment">
-        <p>Pixel to Screen Pipeline</p>
-        <img src="assets/frame-full.png"/>
-        <pre class="fragment"><code class="css" data-trim contenteditable>
-							body a, .nav a, .nav > .nav__link a, .myLinkElement
-						</code></pre>
+        <pre>
+          <code class="javascript" data-trim>
+            var a = 42;
+            var b = 5;
+            function addA(a,b) {
+              return a + b;
+            }
+            var c = addA(a,b);
+					</code>
+        </pre>
       </div>
       <aside class="notes">Javascript code and logic, most of DOM changes are from here, unavoidable<br/>
         Style, calculate final style which should be applied<br/>
@@ -85,10 +96,7 @@ for (i=0;i<10000;i++) node.innerText = value;
     </section>
 
     <section>
-      <h2>Skracanie ścieżki</h2>
-      <img src="assets/frame-no-layout.png"/>
-      <a class="fragment" href="https://csstriggers.com/">https://csstriggers.com/</a>
-      <img class="fragment" src="assets/frame-no-layout-paint.png"/>
+      <img src="assets/AST-forEach.svg" style="width: 95vw; max-width: 95vw;"/>
       <aside class="notes">Don't change Layout<br/>
         Assets consuming<br/>
         Use transform and opacity<br/>
