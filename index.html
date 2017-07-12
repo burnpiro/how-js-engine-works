@@ -26,19 +26,19 @@
 <div class="reveal">
   <div class="slides">
     <section>
-      <h2>Javascript the darker side of the engine</h2>
+      <h2>Javascript <br/>the darker side of the engine</h2>
       <small>Kemal Erdem | <a href="https://github.com/burnpiro">github.com/burnpiro</a></small>
       <aside class="notes"></aside>
     </section>
 
     <section>
       <section>
-        <h2>JS is a weird language</h2>
+        <p><strong>JS is a weird language</strong></p>
         <p class="fragment">Many implementations</p>
         <p class="fragment">Multiple platforms</p>
         <aside class="notes">
           JS is described by TC39 comity and then implemented by engine providers<br/>
-          There are miltiple JS engines like Chakra, V8, JSC, JerryScript, SpiderMonkey
+          There are multiple JS engines like Chakra, V8, JSC, JerryScript, SpiderMonkey
           JS is supported on many platforms like x86, x64, arm, powerpc, mips<br/>
         </aside>
       </section>
@@ -53,19 +53,8 @@
     </section>
 
     <section>
-      <p>Main workflow of JS Engine</p>
-      <pre><code class="javascript" data-trim contenteditable tab-replace>
-for (i=0;i<10000;i++) {
-  if(node.innerText !== value) {
-    node.innerText = value;
-  }
-}
-					</code></pre>
-      <p>vs</p>
-      <pre><code class="javascript" data-trim contenteditable>
-for (i=0;i<10000;i++) node.innerText;
-for (i=0;i<10000;i++) node.innerText = value;
-					</code></pre>
+      <h3>Main flow in JS Engine</h3>
+      <img class="stretch" src="assets/jsEngineFlow.svg"/>
       <aside class="notes">ReactNext 2016<br/>
         No difference now (except Safari)<br/>
         There is a difference but wait to proper slide
@@ -74,16 +63,14 @@ for (i=0;i<10000;i++) node.innerText = value;
 
     <section>
       <h2>AST (Abstract Syntax Tree)</h2>
-        <img src="assets/AST-simple.svg"/>
+        <img class="stretch" src="assets/AST-simple.svg"/>
       <div class="fragment">
         <pre>
           <code class="javascript" data-trim>
-            var a = 42;
-            var b = 5;
             function addA(a,b) {
               return a + b;
             }
-            var c = addA(a,b);
+            var c = addA(4,5);
 					</code>
         </pre>
       </div>
@@ -96,7 +83,7 @@ for (i=0;i<10000;i++) node.innerText = value;
     </section>
 
     <section>
-      <img src="assets/AST-forEach.svg" style="width: 95vw; max-width: 95vw;"/>
+      <img src="assets/AST-forEach.svg" class="stretch"/>
       <aside class="notes">Don't change Layout<br/>
         Assets consuming<br/>
         Use transform and opacity<br/>

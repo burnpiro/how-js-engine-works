@@ -18,3 +18,8 @@ img {
 .timeoutSize {
   max-height: 30vh !important;
 }
+
+.reveal pre {
+  margin: 0 auto;
+  box-shadow: none;
+}

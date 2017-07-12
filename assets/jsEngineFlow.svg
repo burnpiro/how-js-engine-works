@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="32cm" height="22cm" viewBox="393 12 622 440" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <path style="fill: #ffc0cb" d="M 536.325 14 L 793,14 L 793,60.2857 C 741.665,52.5714 715.997,52.5714 664.662,60.2857 C 613.327,68 587.66,68 536.325,60.2857 L 536.325,14z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 536.325 14 L 793,14 L 793,60.2857 C 741.665,52.5714 715.997,52.5714 664.662,60.2857 C 613.327,68 587.66,68 536.325,60.2857 L 536.325,14"/>
+    <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="664.662" y="38.5774">
+      <tspan x="664.662" y="38.5774">Javascript Source Code</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #1e90ff" x="581" y="98" width="163" height="54"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="581" y="98" width="163" height="54"/>
+    <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="662.5" y="130.167">
+      <tspan x="662.5" y="130.167">Parser</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #add8e6" x="548.475" y="186" width="222.05" height="64"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="548.475" y="186" width="222.05" height="64"/>
+    <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="659.5" y="223.167">
+      <tspan x="659.5" y="223.167">Abstract Syntax Tree</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #008000" x="395" y="277" width="191" height="71"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="395" y="277" width="191" height="71"/>
+    <text font-size="16.9333" style="fill: #ffffff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="490.5" y="317.667">
+      <tspan x="490.5" y="317.667">Interpreter</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #a52a2a" x="736.875" y="272" width="277.125" height="73"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="736.875" y="272" width="277.125" height="73"/>
+    <text font-size="16.9333" style="fill: #ffffff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="875.437" y="313.667">
+      <tspan x="875.437" y="313.667">Optimize Compiler(s)</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #90ee90" x="402" y="387.333" width="182.25" height="64.3333"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="402" y="387.333" width="182.25" height="64.3333"/>
+    <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="493.125" y="424.667">
+      <tspan x="493.125" y="424.667">Bytecode</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #c55454" x="778" y="386" width="197.95" height="64"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="778" y="386" width="197.95" height="64"/>
+    <text font-size="16.9333" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="876.975" y="423.167">
+      <tspan x="876.975" y="423.167">Optimized Code</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="664.138" y1="61.3643" x2="663.471" y2="87.274"/>
+    <polygon style="fill: #000000" points="663.278,94.7715 658.537,84.6461 663.471,87.274 668.534,84.9035 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="663.278,94.7715 658.537,84.6461 663.471,87.274 668.534,84.9035 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="661.597" y1="152.995" x2="660.878" y2="175.279"/>
+    <polygon style="fill: #000000" points="660.636,182.775 655.961,172.619 660.878,175.279 665.956,172.941 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="660.636,182.775 655.961,172.619 660.878,175.279 665.956,172.941 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="600.478" y1="251.003" x2="564.281" y2="271.244"/>
+    <polygon style="fill: #000000" points="557.735,274.904 564.023,265.66 564.281,271.244 568.903,274.388 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="557.735,274.904 564.023,265.66 564.281,271.244 568.903,274.388 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="738.21" y1="250.987" x2="776.994" y2="267.242"/>
+    <polygon style="fill: #000000" points="783.911,270.141 772.755,270.887 776.994,267.242 776.621,261.664 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="783.911,270.141 772.755,270.887 776.994,267.242 776.621,261.664 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="491.395" y1="349" x2="492.073" y2="376.617"/>
+    <polygon style="fill: #000000" points="492.257,384.114 487.013,374.24 492.073,376.617 497.01,373.995 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="492.257,384.114 487.013,374.24 492.073,376.617 497.01,373.995 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="875.964" y1="345.994" x2="876.375" y2="375.263"/>
+    <polygon style="fill: #000000" points="876.48,382.762 871.34,372.833 876.375,375.263 881.339,372.693 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="876.48,382.762 871.34,372.833 876.375,375.263 881.339,372.693 "/>
+  </g>
+</svg>
