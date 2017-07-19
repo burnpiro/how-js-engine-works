@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="38cm" height="25cm" viewBox="89 21 755 493" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #1e90ff" x="399" y="23" width="129" height="57"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="399" y="23" width="129" height="57"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="463.5" y="55.4">
+      <tspan x="463.5" y="55.4">Parser</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #add8e6" x="399" y="129" width="126" height="59"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="399" y="129" width="126" height="59"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="462" y="162.4">
+      <tspan x="462" y="162.4">AST</tspan>
+    </text>
+  </g>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="462" y="158.5">
+    <tspan x="462" y="158.5"></tspan>
+  </text>
+  <g>
+    <rect style="fill: #00ff00" x="91" y="235" width="158" height="80"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="91" y="235" width="158" height="80"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="170" y="278.9">
+      <tspan x="170" y="278.9">Ignition</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #b64949" x="647" y="230" width="154" height="74"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="647" y="230" width="154" height="74"/>
+    <text font-size="12.8" style="fill: #ffffff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="724" y="270.9">
+      <tspan x="724" y="270.9">TurboFan</tspan>
+    </text>
+  </g>
+  <g>
+    <path style="fill: #9cff9c" d="M 194 401 L 338,401 L 338,457.571 C 309.2,448.143 294.8,448.143 266,457.571 C 237.2,467 222.8,467 194,457.571 L 194,401z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 194 401 L 338,401 L 338,457.571 C 309.2,448.143 294.8,448.143 266,457.571 C 237.2,467 222.8,467 194,457.571 L 194,401"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="266" y="428.571">
+      <tspan x="266" y="428.571">Bytecode</tspan>
+    </text>
+  </g>
+  <g>
+    <path style="fill: #d9a6af" d="M 671 382 L 843,382 L 843,444.571 C 808.6,434.143 791.4,434.143 757,444.571 C 722.6,455 705.4,455 671,444.571 L 671,382z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 671 382 L 843,382 L 843,444.571 C 808.6,434.143 791.4,434.143 757,444.571 C 722.6,455 705.4,455 671,444.571 L 671,382"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="757" y="412.071">
+      <tspan x="757" y="412.071">Machine Code</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="463.087" y1="80.9929" x2="462.561" y2="118.462"/>
+    <polygon style="fill: #000000" points="462.456,125.961 457.597,115.892 462.561,118.462 467.596,116.032 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="462.456,125.961 457.597,115.892 462.561,118.462 467.596,116.032 "/>
+  </g>
+  <g>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 398.064 158.5 C 301.12,158.5 202.192,182.002 187.376,224.801"/>
+    <polygon style="fill: #000000" points="184.923,231.889 183.469,220.803 187.376,224.801 192.919,224.074 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="184.923,231.889 183.469,220.803 187.376,224.801 192.919,224.074 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="194.756" y1="316.002" x2="240.483" y2="391.738"/>
+    <polygon style="fill: #000000" points="244.36,398.159 234.911,392.182 240.483,391.738 243.472,387.014 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="244.36,398.159 234.911,392.182 240.483,391.738 243.472,387.014 "/>
+  </g>
+  <g>
+    <path style="fill: none; fill-opacity:0; stroke-width: 4; stroke-dasharray: 32; stroke: #00ff00" d="M 338.994 418.132 C 522.994,378.132 468.02,226.734 634.194,252.873"/>
+    <polygon style="fill: #00ff00" points="641.603,254.039 630.947,257.424 634.194,252.873 632.501,247.545 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #00ff00" points="641.603,254.039 630.947,257.424 634.194,252.873 632.501,247.545 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="732.276" y1="304.995" x2="746.766" y2="371.519"/>
+    <polygon style="fill: #000000" points="748.363,378.847 741.349,370.14 746.766,371.519 751.12,368.012 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="748.363,378.847 741.349,370.14 746.766,371.519 751.12,368.012 "/>
+  </g>
+  <g>
+    <path style="fill: none; fill-opacity:0; stroke-width: 4; stroke-dasharray: 32; stroke: #ff0000" d="M 729.373 452.185 C 672.373,521.685 281.408,540.569 271.121,469.418"/>
+    <polygon style="fill: #ff0000" points="270.047,461.995 276.427,471.177 271.121,469.418 266.53,472.608 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #ff0000" points="270.047,461.995 276.427,471.177 271.121,469.418 266.53,472.608 "/>
+  </g>
+</svg>

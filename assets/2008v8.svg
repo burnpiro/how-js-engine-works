@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="15cm" height="26cm" viewBox="246 5 296 501" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #1e90ff" x="412.457" y="6.29647" width="129" height="57"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="412.457" y="6.29647" width="129" height="57"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="476.957" y="38.6965">
+      <tspan x="476.957" y="38.6965">Parser</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #add8e6" x="411.268" y="102.783" width="126" height="59"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="411.268" y="102.783" width="126" height="59"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="474.268" y="136.183">
+      <tspan x="474.268" y="136.183">AST</tspan>
+    </text>
+  </g>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="474.268" y="132.283">
+    <tspan x="474.268" y="132.283"></tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="476.145" y1="64.2137" x2="475.377" y2="92.0622"/>
+    <polygon style="fill: #000000" points="475.17,99.5593 470.448,89.4252 475.377,92.0622 480.444,89.701 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="475.17,99.5593 470.448,89.4252 475.377,92.0622 480.444,89.701 "/>
+  </g>
+  <g>
+    <path style="fill: #ffc964" d="M 247.564 431.127 L 435.458,431.127 L 435.458,495.344 C 397.879,484.641 379.09,484.641 341.511,495.344 C 303.932,506.047 285.143,506.047 247.564,495.344 L 247.564,431.127z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 247.564 431.127 L 435.458,431.127 L 435.458,495.344 C 397.879,484.641 379.09,484.641 341.511,495.344 C 303.932,506.047 285.143,506.047 247.564,495.344 L 247.564,431.127"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="341.511" y="461.884">
+      <tspan x="341.511" y="461.884">Semioptimized Code</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #fc913a" x="257.077" y="262.773" width="168.867" height="77.974"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="257.077" y="262.773" width="168.867" height="77.974"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="341.511" y="305.66">
+      <tspan x="341.511" y="305.66">Codegen</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="450.372" y1="162.787" x2="378.832" y2="254.116"/>
+    <polygon style="fill: #000000" points="374.207,260.02 376.438,249.064 378.832,254.116 384.31,255.231 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="374.207,260.02 376.438,249.064 378.832,254.116 384.31,255.231 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="341.511" y1="341.715" x2="341.511" y2="420.392"/>
+    <polygon style="fill: #000000" points="341.511,427.892 336.511,417.892 341.511,420.392 346.511,417.892 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="341.511,427.892 336.511,417.892 341.511,420.392 346.511,417.892 "/>
+  </g>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="367.674" y="364.531">
+    <tspan x="367.674" y="364.531"></tspan>
+  </text>
+</svg>

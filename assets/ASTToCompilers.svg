@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="16cm" height="13cm" viewBox="134 303 305 258" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <path style="fill: #800000" d="M 158.898 488.268 C 158.898,488.268 158.898,455.788 158.898,455.788 C 158.898,455.788 169.724,455.788 169.724,455.788 C 169.724,455.788 169.724,488.268 169.724,488.268 C 169.724,488.268 168.371,490.975 164.311,490.975 C 160.251,490.975 158.898,488.268 158.898,488.268z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 158.898 488.268 C 158.898,488.268 158.898,455.788 158.898,455.788 C 158.898,455.788 169.724,455.788 169.724,455.788 C 169.724,455.788 169.724,488.268 169.724,488.268 C 169.724,488.268 168.371,490.975 164.311,490.975 C 160.251,490.975 158.898,488.268 158.898,488.268"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 158.898 488.268 C 158.898,488.268 158.898,455.788 158.898,455.788 C 158.898,455.788 169.724,455.788 169.724,455.788 C 169.724,455.788 169.724,488.268 169.724,488.268 C 169.724,488.268 168.371,490.975 164.311,490.975 C 160.251,490.975 158.898,488.268 158.898,488.268"/>
+    <polygon style="fill: #008000" points="142.657,401.654 150.777,401.654 142.657,423.307 150.777,423.307 142.657,444.961 148.071,444.961 137.244,455.788 191.378,455.788 180.551,444.961 185.965,444.961 177.845,423.307 185.965,423.307 177.845,401.654 185.965,401.654 164.311,380 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="142.657,401.654 150.777,401.654 142.657,423.307 150.777,423.307 142.657,444.961 148.071,444.961 137.244,455.788 191.378,455.788 180.551,444.961 185.965,444.961 177.845,423.307 185.965,423.307 177.845,401.654 185.965,401.654 164.311,380 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #00ff00" points="142.657,401.654 150.777,401.654 142.657,423.307 150.777,423.307 142.657,444.961 148.071,444.961 137.244,455.788 191.378,455.788 180.551,444.961 185.965,444.961 177.845,423.307 185.965,423.307 177.845,401.654 185.965,401.654 164.311,380 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="275" y="304" width="129" height="63"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="275" y="304" width="129" height="63"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="339.5" y="339.4">
+      <tspan x="339.5" y="339.4">Full Codegen</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="271" y="502" width="130" height="57"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="271" y="502" width="130" height="57"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="336" y="534.4">
+      <tspan x="336" y="534.4">Ignition</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="308" y="399" width="130" height="62"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="308" y="399" width="130" height="62"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="373" y="433.9">
+      <tspan x="373" y="433.9">Crankshaft</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="184.189" y1="415.832" x2="268.007" y2="372.479"/>
+    <polygon style="fill: #000000" points="274.668,369.033 268.083,378.069 268.007,372.479 263.489,369.186 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="274.668,369.033 268.083,378.069 268.007,372.479 263.489,369.186 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="180.005" y1="426.221" x2="297.303" y2="428.518"/>
+    <polygon style="fill: #000000" points="304.801,428.665 294.705,433.468 297.303,428.518 294.901,423.47 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="304.801,428.665 294.705,433.468 297.303,428.518 294.901,423.47 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="184.258" y1="437.87" x2="279.424" y2="495.963"/>
+    <polygon style="fill: #000000" points="285.825,499.871 274.685,498.928 279.424,495.963 279.895,490.393 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="285.825,499.871 274.685,498.928 279.424,495.963 279.895,490.393 "/>
+  </g>
+</svg>
