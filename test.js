@@ -1,15 +1,9 @@
-function sayHi(name){
-    var message = "Hi " + name + "!"
-    console.log(message)
-}
-
 function add(a, b){
-    return a;
+    return a + b;
 }
 
 var sum = 0
 
-for(var i=0; i<100000; i++) {
- sum = add(1,1)
+for(var i=0; i<1000; i++) {
+ sum = add(sum,1)
 }
-sayHi("Sparkle", sum)

@@ -26,7 +26,7 @@
 <div class="reveal">
   <div class="slides">
     <section>
-      <h2>Javascript <br/>the darker side of the engine</h2>
+      <h2>Javascript <br/>the dark side of the engine</h2>
       <small>Kemal Erdem | <a href="https://github.com/burnpiro">github.com/burnpiro</a></small>
       <aside class="notes"></aside>
     </section>
@@ -58,7 +58,6 @@
       <aside class="notes">
         Not every engine is has interpreter<br />
         Many optimizing compilers available<br />
-        Optimization issue?
       </aside>
     </section>
 
@@ -140,17 +139,17 @@
       </aside>
     </section>
 
-    <section>
+    <section data-transition="none">
       <p>Before dinosaurs => 2008</p>
       <img src="assets/2008v8.svg" style="height: 60%" />
     </section>
 
-    <section>
+    <section data-transition="none">
       <p>2010 - First optimizing compiler</p>
       <img src="assets/2010v8.svg" style="height: 60%" />
     </section>
 
-    <section>
+    <section data-transition="none">
       <p>2014 - Lets add more of them?</p>
       <img src="assets/2014v8.svg" style="height: 60%" />
     </section>
@@ -190,6 +189,120 @@
     <section>
       <p>2017 - Back to the future</p>
       <img src="assets/2017v8.svg" style="height: 60%" />
+    </section>
+
+    <section>
+      <div style="display: flex; align-items: stretch; width: 100%">
+        <pre style="margin: 10px;">
+          <h3>Property access</h3>
+          <code class="javascript" data-trim style="font-size: 12px; line-height: 18px;">
+            const getXProp = obj => obj.x
+
+            function getXProp (obj) {
+              return obj.x
+            }
+          </code>
+        </pre>
+        <blockquote class="fragment" flex style="font-size: 20px; text-align: left">
+          <emu-clause id="sec-ordinaryget" aoid="OrdinaryGet">
+            <strong><span class="secnum">9.1.8.1</span> OrdinaryGet ( <var>O</var>, <var>P</var>, <var>Receiver</var> )</strong>
+            <p>When the abstract operation OrdinaryGet is called with Object <var>O</var>, property key <var>P</var>, and <emu-xref href="#sec-ecmascript-language-types" id="_ref_1939"><a target="_blank" href="https://tc39.github.io/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref> <var>Receiver</var>, the following steps are taken:</p>
+
+            <emu-alg><ol><li><emu-xref href="#assert" id="_ref_1940"><a target="_blank" href="https://tc39.github.io/ecma262/#assert">Assert</a></emu-xref>: <emu-xref aoid="IsPropertyKey" id="_ref_1941"><a target="_blank" href="https://tc39.github.io/ecma262/#sec-ispropertykey">IsPropertyKey</a></emu-xref>(<var>P</var>) is <emu-val>true</emu-val>.</li><li>Let <var>desc</var> be ? <var>O</var>.[[GetOwnProperty]](<var>P</var>).</li><li>If <var>desc</var> is <emu-val>undefined</emu-val>, then<ol><li>Let <var>parent</var> be ? <var>O</var>.[[GetPrototypeOf]]().</li><li>If <var>parent</var> is <emu-val>null</emu-val>, return <emu-val>undefined</emu-val>.</li><li>Return ? <var>parent</var>.[[Get]](<var>P</var>, <var>Receiver</var>).</li></ol></li><li>If <emu-xref aoid="IsDataDescriptor" id="_ref_1942"><a target="_blank" href="https://tc39.github.io/ecma262/#sec-isdatadescriptor">IsDataDescriptor</a></emu-xref>(<var>desc</var>) is <emu-val>true</emu-val>, return <var>desc</var>.[[Value]].</li><li><emu-xref href="#assert" id="_ref_1943"><a target="_blank" href="https://tc39.github.io/ecma262/#assert">Assert</a></emu-xref>: <emu-xref aoid="IsAccessorDescriptor" id="_ref_1944"><a target="_blank" href="https://tc39.github.io/ecma262/#sec-isaccessordescriptor">IsAccessorDescriptor</a></emu-xref>(<var>desc</var>) is <emu-val>true</emu-val>.</li><li>Let <var>getter</var> be <var>desc</var>.[[Get]].</li><li>If <var>getter</var> is <emu-val>undefined</emu-val>, return <emu-val>undefined</emu-val>.</li><li>Return ?&nbsp;<emu-xref aoid="Call" id="_ref_1945"><a target="_blank" href="https://tc39.github.io/ecma262/#sec-call">Call</a></emu-xref>(<var>getter</var>, <var>Receiver</var>).
+            </li></ol></emu-alg>
+          </emu-clause>
+        </blockquote>
+      </div>
+      <aside class="notes">
+
+      </aside>
+    </section>
+
+    <section>
+      <div style="display: flex; align-items: stretch; width: 100%">
+        <blockquote flex style="font-size: 16px; text-align: left">
+          <emu-clause id="sec-ordinaryset" aoid="OrdinarySet">
+            <strong><span class="secnum">9.1.9.1</span> OrdinarySet ( <var>O</var>, <var>P</var>, <var>V</var>, <var>Receiver</var> )</strong>
+            <p>When the abstract operation OrdinarySet is called with Object <var>O</var>, property key <var>P</var>, value <var>V</var>, and <emu-xref href="#sec-ecmascript-language-types" id="_ref_1948"><a target="_blank" href="https://tc39.github.io/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref> <var>Receiver</var>, the following steps are taken:</p>
+
+            <emu-alg><ol><li><emu-xref href="#assert" id="_ref_1949"><a target="_blank" href="https://tc39.github.io/ecma262/#assert">Assert</a></emu-xref>: <emu-xref aoid="IsPropertyKey" id="_ref_1950"><a target="_blank" href="https://tc39.github.io/ecma262/#sec-ispropertykey">IsPropertyKey</a></emu-xref>(<var>P</var>) is <emu-val>true</emu-val>.</li><li>Let <var>ownDesc</var> be ? <var>O</var>.[[GetOwnProperty]](<var>P</var>).</li><li>If <var>ownDesc</var> is <emu-val>undefined</emu-val>, then<ol><li>Let <var>parent</var> be ? <var>O</var>.[[GetPrototypeOf]]().</li><li>If <var>parent</var> is not <emu-val>null</emu-val>, then<ol><li>Return ? <var>parent</var>.[[Set]](<var>P</var>, <var>V</var>, <var>Receiver</var>).</li></ol></li><li>Else,<ol><li>Set <var>ownDesc</var> to the PropertyDescriptor{[[Value]]: <emu-val>undefined</emu-val>, [[Writable]]: <emu-val>true</emu-val>, [[Enumerable]]: <emu-val>true</emu-val>, [[Configurable]]: <emu-val>true</emu-val>}.</li></ol></li></ol></li><li>If <emu-xref aoid="IsDataDescriptor" id="_ref_1951"><a target="_blank" href=https://tc39.github.io/ecma262/#sec-isdatadescriptor>IsDataDescriptor</a></emu-xref>(<var>ownDesc</var>) is <emu-val>true</emu-val>, then<ol><li>If <var>ownDesc</var>.[[Writable]] is <emu-val>false</emu-val>, return <emu-val>false</emu-val>.</li><li>If <emu-xref aoid="Type" id="_ref_1952"><a target="_blank" href="#sec-ecmascript-data-types-and-values">Type</a></emu-xref>(<var>Receiver</var>) is not Object, return <emu-val>false</emu-val>.</li><li>Let <var>existingDescriptor</var> be ? <var>Receiver</var>.[[GetOwnProperty]](<var>P</var>).</li><li>If <var>existingDescriptor</var> is not <emu-val>undefined</emu-val>, then<ol><li>If <emu-xref aoid="IsAccessorDescriptor" id="_ref_1953"><a target="_blank" href="https://tc39.github.io/ecma262/#sec-isaccessordescriptor">IsAccessorDescriptor</a></emu-xref>(<var>existingDescriptor</var>) is <emu-val>true</emu-val>, return <emu-val>false</emu-val>.</li><li>If <var>existingDescriptor</var>.[[Writable]] is <emu-val>false</emu-val>, return <emu-val>false</emu-val>.</li><li>Let <var>valueDesc</var> be the PropertyDescriptor{[[Value]]: <var>V</var>}.</li><li>Return ? <var>Receiver</var>.[[DefineOwnProperty]](<var>P</var>, <var>valueDesc</var>).</li></ol></li><li>Else <var>Receiver</var> does not currently have a property <var>P</var>,<ol><li>Return ?&nbsp;<emu-xref aoid="CreateDataProperty" id="_ref_1954"><a target="_blank" href="https://tc39.github.io/ecma262/#sec-createdataproperty">CreateDataProperty</a></emu-xref>(<var>Receiver</var>, <var>P</var>, <var>V</var>).</li></ol></li></ol></li><li><emu-xref href="#assert" id="_ref_1955"><a target="_blank" href="https://tc39.github.io/ecma262/#assert">Assert</a></emu-xref>: <emu-xref aoid="IsAccessorDescriptor" id="_ref_1956"><a target="_blank" href="https://tc39.github.io/ecma262/#sec-isaccessordescriptor">IsAccessorDescriptor</a></emu-xref>(<var>ownDesc</var>) is <emu-val>true</emu-val>.</li><li>Let <var>setter</var> be <var>ownDesc</var>.[[Set]].</li><li>If <var>setter</var> is <emu-val>undefined</emu-val>, return <emu-val>false</emu-val>.</li><li>Perform ?&nbsp;<emu-xref aoid="Call" id="_ref_1957"><a target="_blank" href="https://tc39.github.io/ecma262/#sec-call">Call</a></emu-xref>(<var>setter</var>, <var>Receiver</var>, « <var>V</var> »).</li><li>Return <emu-val>true</emu-val>.
+            </li></ol></emu-alg>
+          </emu-clause>
+        </blockquote>
+      </div>
+      <aside class="notes">
+
+      </aside>
+    </section>
+
+    <section>
+      <div style="display: flex; align-items: stretch; width: 100%">
+        <pre style="margin: 10px;">
+          <h3>Property access</h3>
+          <code class="javascript" data-trim style="font-size: 12px; line-height: 18px;">
+            if (obj) { return obj.x }
+
+            ... ...........
+            27 cmpq [r13-0x40],rax
+            31 jz 128
+            37 test al,0x1
+            39 setzl bl
+            42 movzxbl rbx,rbx
+            45 cmpl rbx,0x0
+            48 jnz 185
+            54 cmpq [r13-0x38],rax
+            58 jz 128
+            64 movq rdx,[rax-0x1]
+            68 testb [rdx+0xc],0x10
+            72 jnz 128
+            78 cmpq [r13+0x50],rdx
+            82 jz 160
+            160 vmovsd xmm0,[rax+0x7]
+            165 movq [rbp-0x18],rbx
+            169 vxorpd xmm1,xmm1,xmm1
+            173 vucomisd xmm1,xmm0
+            177 jz 128
+            179 movq rbx,[rbp-0x18]
+            183 jmp 88
+            185 movq [rbp-0x18],rbx
+            189 cmpq rax,0x0
+            193 jz 128
+            195 movq rbx,[rbp-0x18]
+            199 jmp 88
+            ... ...........
+          </code>
+        </pre>
+        <pre style="margin: 10px;">
+          <h3>Property access</h3>
+          <code class="javascript" data-trim style="font-size: 12px; line-height: 18px;">
+            if (obj !== undefined) { return obj.x }
+
+            ... ...........
+            23 cmpq [r13-0x60],rax
+            27 jz 72
+            ... ...........
+          </code>
+        </pre>
+      </div>
+    </section>
+
+
+    <section>
+      <div style="display: flex; align-items: stretch; width: 100%">
+        <pre style="margin: 10px;">
+          <h3>Try it</h3>
+          <code class="javascript" data-trim style="font-size: 12px; line-height: 18px;">
+            node --v8-options
+            node --print_opt_code test.js > nodejsOut.txt
+            node --print_opt_code --turbo test.js > nodejsOut.txt
+
+            d8 --print-opt-code text.js > d8Out>txt
+          </code>
+        </pre>
+      </div>
+      <aside class="notes">
+        Remember to make it worth optimizing because code which is called only once won't be optimized
+      </aside>
     </section>
 
     <section>
