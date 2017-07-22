@@ -219,6 +219,469 @@
     </section>
 
     <section>
+      <div style="display: flex; flex-direction: column; align-items: stretch; width: 100%">
+        <div style="display: flex; flex-direction: row">
+          <pre style="margin: 10px;">
+            <code class="javascript" data-trim style="font-size: 16px; line-height: 18px;">
+              const getXProp = obj => obj.x
+
+              getXProp({ x: 1 })
+            </code>
+            <code class="fragment javascript" data-trim style="font-size: 16px; line-height: 18px;">
+              SET
+              { x:int } => get from offset 1 in IC (Inline Cache)
+            </code>
+            <code class="fragment javascript" data-trim style="font-size: 16px; line-height: 18px;">
+              getXProp({ x: 2 })
+
+              { x: 2 } type of { x:int }
+              GET from offset 1
+            </code>
+            <code class="fragment javascript" data-trim style="font-size: 16px; line-height: 18px;">
+              const firstX = { x: 2 }
+              const secondX = { x: 12 }
+
+              console.log(%HaveSameMap(firstX, secondX))
+
+              --allow-native-syntax
+            </code>
+          </pre>
+        </div>
+      </div>
+      <aside class="notes">
+        First time only Ignition is used and we're not optimizing that function<br />
+        IC is a first level of optimisation <br />
+        Maps are V8 thing not a part of JS Spec
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <p>Let TurboFan do the work</p>
+      <div style="display: flex; flex-direction: column; align-items: stretch; width: 100%">
+        <div style="display: flex; flex-direction: row">
+          <pre style="margin: 10px;">
+            <code class="javascript" data-trim style="font-size: 16px; line-height: 18px;">
+              const getPropX = obj => obj.x
+
+              for(var i=0; i<10000; i++) {
+                getPropX({ x: i })
+              }
+            </code>
+          </pre>
+          <pre>
+          <p class="fragment" style="font-size: 13px; line-height: 16px;">
+0xc0abb749632    18  488bf0         REX.W movq rsi,rax
+;;; <@18,#13> stack-check
+0xc0abb749635    21  493ba5880a0000 REX.W cmpq rsp,[r13+0xa88]
+0xc0abb74963c    28  7305           jnc 35  (0xc0abb749643)
+0xc0abb74963e    30  e89d35efff     call StackCheck  (0xc0abb63cbe0)
+                                            ;; code: BUILTIN
+;;; <@20,#13> lazy-bailout
+;;; <@21,#13> gap
+0xc0abb749643    35  488b4510       REX.W movq rax,[rbp+0x10]
+;;; <@22,#15> check-non-smi
+0xc0abb749647    39  a801           test al,0x1
+0xc0abb749649    41  0f8427000000   jz 86  (0xc0abb749676)
+;;; <@24,#16> check-maps
+0xc0abb74964f    47  49bad9bde1bd02370000 REX.W movq r10,0x3702bde1bdd9
+                                                      ;; object: 0x3702bde1bdd9
+                                                      Map(FAST_HOLEY_ELEMENTS)
+0xc0abb749659    57  4c3950ff       REX.W cmpq [rax-0x1],r10
+0xc0abb74965d    61  0f8518000000   jnz 91  (0xc0abb74967b)
+;;; <@26,#17> load-named-field
+0xc0abb749663    67  8b401b         movl rax,[rax+0x1b]
+;;; <@28,#21> smi-tag
+0xc0abb749666    70  8bd8           movl rbx,rax
+0xc0abb749668    72  48c1e320       REX.W shlq rbx, 32
+;;; <@29,#21> gap
+0xc0abb74966c    76  488bc3         REX.W movq rax,rbx
+;;; <@30,#19> return
+0xc0abb74966f    79  488be5         REX.W movq rsp,rbp
+0xc0abb749672    82  5d             pop rbp
+0xc0abb749673    83  c21000         ret 0x10
+;;; -------------------- Jump table --------------------
+0xc0abb749676    86  e88fc9bbff     call 0xc0abb30600a       ;; deoptimization bailout 1
+0xc0abb74967b    91  e894c9bbff     call 0xc0abb306014       ;; deoptimization bailout 2
+          </p>
+          </pre>
+
+        </div>
+      </div>
+      <aside class="notes">
+        Hot function  <br />
+        IC is a first level of optimisation <br />
+        Maps are V8 thing not a part of JS Spec
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <p>Let TurboFan do the work</p>
+      <div style="display: flex; flex-direction: column; align-items: stretch; width: 100%">
+        <div style="display: flex; flex-direction: row">
+          <pre style="margin: 10px;">
+            <code class="javascript" data-trim style="font-size: 16px; line-height: 18px;">
+              const getPropX = obj => obj.x
+
+              for(var i=0; i<10000; i++) {
+                getPropX({ x: i })
+              }
+            </code>
+          </pre>
+          <pre>
+          <p style="font-size: 13px; line-height: 16px;">
+0xc0abb749632    18  488bf0         REX.W movq rsi,rax
+;;; <@18,#13> stack-check
+0xc0abb749635    21  493ba5880a0000 REX.W cmpq rsp,[r13+0xa88]
+0xc0abb74963c    28  7305           jnc 35  (0xc0abb749643)
+0xc0abb74963e    30  e89d35efff     call StackCheck  (0xc0abb63cbe0)
+                                            ;; <strong style="font-size: 16px; background-color: #ff4c00">code: BUILTIN</strong>
+;;; <@20,#13> lazy-bailout
+;;; <@21,#13> gap
+0xc0abb749643    35  488b4510       REX.W movq rax,[rbp+0x10]
+;;; <@22,#15> check-non-smi
+0xc0abb749647    39  a801           test al,0x1
+0xc0abb749649    41  0f8427000000   jz 86  (0xc0abb749676)
+;;; <@24,#16> check-maps
+0xc0abb74964f    47  49bad9bde1bd02370000 REX.W movq r10,0x3702bde1bdd9
+                                                      ;; object: 0x3702bde1bdd9
+                                                      Map(FAST_HOLEY_ELEMENTS)
+0xc0abb749659    57  4c3950ff       REX.W cmpq [rax-0x1],r10
+0xc0abb74965d    61  0f8518000000   jnz 91  (0xc0abb74967b)
+;;; <@26,#17> load-named-field
+0xc0abb749663    67  8b401b         movl rax,[rax+0x1b]
+;;; <@28,#21> smi-tag
+0xc0abb749666    70  8bd8           movl rbx,rax
+0xc0abb749668    72  48c1e320       REX.W shlq rbx, 32
+;;; <@29,#21> gap
+0xc0abb74966c    76  488bc3         REX.W movq rax,rbx
+;;; <@30,#19> return
+0xc0abb74966f    79  488be5         REX.W movq rsp,rbp
+0xc0abb749672    82  5d             pop rbp
+0xc0abb749673    83  c21000         ret 0x10
+;;; -------------------- Jump table --------------------
+0xc0abb749676    86  e88fc9bbff     call 0xc0abb30600a       ;; deoptimization bailout 1
+0xc0abb74967b    91  e894c9bbff     call 0xc0abb306014       ;; deoptimization bailout 2
+          </p>
+          </pre>
+
+        </div>
+      </div>
+      <aside class="notes">
+        Hot function  <br />
+        IC is a first level of optimisation <br />
+        Maps are V8 thing not a part of JS Spec
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <p>Let TurboFan do the work</p>
+      <div style="display: flex; flex-direction: column; align-items: stretch; width: 100%">
+        <div style="display: flex; flex-direction: row">
+          <pre style="margin: 10px;">
+            <code class="javascript" data-trim style="font-size: 16px; line-height: 18px;">
+              const getPropX = obj => obj.x
+
+              for(var i=0; i<10000; i++) {
+                getPropX({ x: i })
+              }
+            </code>
+          </pre>
+          <pre>
+          <p style="font-size: 13px; line-height: 16px;">
+0xc0abb749632    18  488bf0         REX.W movq rsi,rax
+;;; <@18,#13> stack-check
+0xc0abb749635    21  493ba5880a0000 REX.W cmpq rsp,[r13+0xa88]
+0xc0abb74963c    28  7305           jnc 35  (0xc0abb749643)
+0xc0abb74963e    30  e89d35efff     call StackCheck  (0xc0abb63cbe0)
+                                            ;; code: BUILTIN
+;;; <@20,#13> lazy-bailout
+;;; <@21,#13> gap
+0xc0abb749643    35  488b4510       REX.W movq rax,[rbp+0x10]
+;;; <@22,#15> check-non-smi
+0xc0abb749647    39  a801           test al,0x1
+0xc0abb749649    41  0f8427000000   <strong style="font-size: 16px; background-color: #ff4c00">jz 86</strong>  (0xc0abb749676)
+;;; <@24,#16> check-maps<
+0xc0abb74964f    47  49bad9bde1bd02370000 REX.W movq r10,0x3702bde1bdd9
+                                                      ;; object: 0x3702bde1bdd9
+                                                      Map(FAST_HOLEY_ELEMENTS)
+0xc0abb749659    57  4c3950ff       REX.W cmpq [rax-0x1],r10
+0xc0abb74965d    61  0f8518000000   jnz 91  (0xc0abb74967b)
+;;; <@26,#17> load-named-field
+0xc0abb749663    67  8b401b         movl rax,[rax+0x1b]
+;;; <@28,#21> smi-tag
+0xc0abb749666    70  8bd8           movl rbx,rax
+0xc0abb749668    72  48c1e320       REX.W shlq rbx, 32
+;;; <@29,#21> gap
+0xc0abb74966c    76  488bc3         REX.W movq rax,rbx
+;;; <@30,#19> return
+0xc0abb74966f    79  488be5         REX.W movq rsp,rbp
+0xc0abb749672    82  5d             pop rbp
+0xc0abb749673    83  c21000         ret 0x10
+;;; -------------------- Jump table --------------------
+0xc0abb749676    <strong style="font-size: 16px; background-color: #ff4c00">86  e88fc9bbff     call 0xc0abb30600a
+            ;; deoptimization bailout 1</strong>
+0xc0abb74967b    91  e894c9bbff     call 0xc0abb306014       ;; deoptimization bailout 2
+          </p>
+          </pre>
+
+        </div>
+      </div>
+      <aside class="notes">
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <p>Let TurboFan do the work</p>
+      <div style="display: flex; flex-direction: column; align-items: stretch; width: 100%">
+        <div style="display: flex; flex-direction: row">
+          <pre style="margin: 10px;">
+            <code class="javascript" data-trim style="font-size: 16px; line-height: 18px;">
+              const getPropX = obj => obj.x
+
+              for(var i=0; i<10000; i++) {
+                getPropX({ x: i })
+              }
+            </code>
+          </pre>
+          <pre>
+          <p style="font-size: 13px; line-height: 16px;">
+0xc0abb749632    18  488bf0         REX.W movq rsi,rax
+;;; <@18,#13> stack-check
+0xc0abb749635    21  493ba5880a0000 REX.W cmpq rsp,[r13+0xa88]
+0xc0abb74963c    28  7305           jnc 35  (0xc0abb749643)
+0xc0abb74963e    30  e89d35efff     call StackCheck  (0xc0abb63cbe0)
+                                            ;; code: BUILTIN
+;;; <@20,#13> lazy-bailout
+;;; <@21,#13> gap
+0xc0abb749643    35  488b4510       REX.W movq rax,[rbp+0x10]
+;;; <@22,#15> check-non-smi
+0xc0abb749647    39  a801           test al,0x1
+0xc0abb749649    41  0f8427000000   jz 86  (0xc0abb749676)
+;;; <@24,#16> <strong style="font-size: 16px; background-color: #ff4c00">check-maps</strong>
+0xc0abb74964f    47  49bad9bde1bd02370000 REX.W movq r10,0x3702bde1bdd9
+                                                      ;; object: 0x3702bde1bdd9
+                                                      Map(FAST_HOLEY_ELEMENTS)
+0xc0abb749659    57  4c3950ff       REX.W cmpq [rax-0x1],r10
+0xc0abb74965d    61  0f8518000000   jnz 91  (0xc0abb74967b)
+;;; <@26,#17> load-named-field
+0xc0abb749663    67  8b401b         movl rax,[rax+0x1b]
+;;; <@28,#21> smi-tag
+0xc0abb749666    70  8bd8           movl rbx,rax
+0xc0abb749668    72  48c1e320       REX.W shlq rbx, 32
+;;; <@29,#21> gap
+0xc0abb74966c    76  488bc3         REX.W movq rax,rbx
+;;; <@30,#19> return
+0xc0abb74966f    79  488be5         REX.W movq rsp,rbp
+0xc0abb749672    82  5d             pop rbp
+0xc0abb749673    83  c21000         ret 0x10
+;;; -------------------- Jump table --------------------
+0xc0abb749676    86  e88fc9bbff     call 0xc0abb30600a       ;; deoptimization bailout 1
+0xc0abb74967b    91  e894c9bbff     call 0xc0abb306014       ;; deoptimization bailout 2
+          </p>
+          </pre>
+
+        </div>
+      </div>
+      <aside class="notes">
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <p>Let TurboFan do the work</p>
+      <div style="display: flex; flex-direction: column; align-items: stretch; width: 100%">
+        <div style="display: flex; flex-direction: row">
+          <pre style="margin: 10px;">
+            <code class="javascript" data-trim style="font-size: 16px; line-height: 18px;">
+              const getPropX = obj => obj.x
+
+              for(var i=0; i<10000; i++) {
+                getPropX({ x: i })
+              }
+            </code>
+          </pre>
+          <pre>
+          <p style="font-size: 13px; line-height: 16px;">
+0xc0abb749632    18  488bf0         REX.W movq rsi,rax
+;;; <@18,#13> stack-check
+0xc0abb749635    21  493ba5880a0000 REX.W cmpq rsp,[r13+0xa88]
+0xc0abb74963c    28  7305           jnc 35  (0xc0abb749643)
+0xc0abb74963e    30  e89d35efff     call StackCheck  (0xc0abb63cbe0)
+                                            ;; code: BUILTIN
+;;; <@20,#13> lazy-bailout
+;;; <@21,#13> gap
+0xc0abb749643    35  488b4510       REX.W movq rax,[rbp+0x10]
+;;; <@22,#15> check-non-smi
+0xc0abb749647    39  a801           test al,0x1
+0xc0abb749649    41  0f8427000000   jz 86  (0xc0abb749676)
+;;; <@24,#16> check-maps
+0xc0abb74964f    47  49bad9bde1bd02370000 <strong style="font-size: 16px; background-color: #ff4c00">REX.W movq r10,0x3702bde1bdd9</strong>
+                                                      ;; object: 0x3702bde1bdd9
+                                                      Map(FAST_HOLEY_ELEMENTS)
+0xc0abb749659    57  4c3950ff       REX.W cmpq [rax-0x1],r10
+0xc0abb74965d    61  0f8518000000   <strong style="font-size: 16px; background-color: #ff4c00">jnz 91</strong>  (0xc0abb74967b)
+;;; <@26,#17> load-named-field
+0xc0abb749663    67  8b401b         movl rax,[rax+0x1b]
+;;; <@28,#21> smi-tag
+0xc0abb749666    70  8bd8           movl rbx,rax
+0xc0abb749668    72  48c1e320       REX.W shlq rbx, 32
+;;; <@29,#21> gap
+0xc0abb74966c    76  488bc3         REX.W movq rax,rbx
+;;; <@30,#19> return
+0xc0abb74966f    79  488be5         REX.W movq rsp,rbp
+0xc0abb749672    82  5d             pop rbp
+0xc0abb749673    83  c21000         ret 0x10
+;;; -------------------- Jump table --------------------
+0xc0abb749676    86  e88fc9bbff     call 0xc0abb30600a       ;; deoptimization bailout 1
+0xc0abb74967b    91  e894c9bbff     call 0xc0abb306014       ;; deoptimization bailout 2
+          </p>
+          </pre>
+
+        </div>
+      </div>
+      <aside class="notes">
+      </aside>
+    </section>
+
+    <section data-transition="none">
+      <p>Let TurboFan do the work</p>
+      <div style="display: flex; flex-direction: column; align-items: stretch; width: 100%">
+        <div style="display: flex; flex-direction: row">
+          <pre style="margin: 10px;">
+            <code class="javascript" data-trim style="font-size: 16px; line-height: 18px;">
+              const getPropX = obj => obj.x
+
+              for(var i=0; i<10000; i++) {
+                getPropX({ x: i })
+              }
+            </code>
+          </pre>
+          <pre>
+          <p style="font-size: 13px; line-height: 16px;">
+0xc0abb749632    18  488bf0         REX.W movq rsi,rax
+;;; <@18,#13> stack-check
+0xc0abb749635    21  493ba5880a0000 REX.W cmpq rsp,[r13+0xa88]
+0xc0abb74963c    28  7305           jnc 35  (0xc0abb749643)
+0xc0abb74963e    30  e89d35efff     call StackCheck  (0xc0abb63cbe0)
+                                            ;; code: BUILTIN
+;;; <@20,#13> lazy-bailout
+;;; <@21,#13> gap
+0xc0abb749643    35  488b4510       REX.W movq rax,[rbp+0x10]
+;;; <@22,#15> check-non-smi
+0xc0abb749647    39  a801           test al,0x1
+0xc0abb749649    41  0f8427000000   jz 86  (0xc0abb749676)
+;;; <@24,#16> check-maps
+0xc0abb74964f    47  49bad9bde1bd02370000 REX.W movq r10,0x3702bde1bdd9
+                                                      ;; object: 0x3702bde1bdd9
+                                                      Map(FAST_HOLEY_ELEMENTS)
+0xc0abb749659    57  4c3950ff       REX.W cmpq [rax-0x1],r10
+0xc0abb74965d    61  0f8518000000   jnz 91  (0xc0abb74967b)
+;;; <@26,#17> <strong style="font-size: 16px; background-color: #ff4c00">load-named-field</strong>
+0xc0abb749663    67  8b401b         movl rax,[rax+0x1b]
+;;; <@28,#21> smi-tag
+0xc0abb749666    70  8bd8           movl rbx,rax
+0xc0abb749668    72  48c1e320       REX.W shlq rbx, 32
+;;; <@29,#21> gap
+0xc0abb74966c    76  488bc3         REX.W movq rax,rbx
+;;; <@30,#19> return
+0xc0abb74966f    79  488be5         REX.W movq rsp,rbp
+0xc0abb749672    82  5d             pop rbp
+0xc0abb749673    83  c21000         <strong style="font-size: 16px; background-color: #ff4c00">ret 0x10</strong>
+;;; -------------------- Jump table --------------------
+0xc0abb749676    86  e88fc9bbff     call 0xc0abb30600a       ;; deoptimization bailout 1
+0xc0abb74967b    91  e894c9bbff     call 0xc0abb306014       ;; deoptimization bailout 2
+          </p>
+          </pre>
+        </div>
+        <pre class="fragment" style="position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    width: 50%;
+    left: 50%;">
+          <code style="border: red 5px solid;" class="javascript" data-trim style="font-size: 16px; line-height: 18px;">
+            getPropX({ x: 13, y: 20 })
+          </code>
+        </pre>
+      </div>
+      <aside class="notes">
+      </aside>
+    </section>
+
+    <section data-background="assets/minion2.gif">
+      <h2 style="color: #fff; text-shadow:
+    -4px -4px 0 #000,
+    4px -4px 0 #000,
+    -4px 4px 0 #000,
+    4px 4px 0 #000; margin-top: 40vh">BAILOUT!!!</h2>
+    </section>
+
+    <section>
+      <p>Try it again...</p>
+      <div style="display: flex; flex-direction: column; align-items: stretch; width: 100%">
+        <div style="display: flex; flex-direction: row">
+          <pre style="margin: 10px;">
+            <code class="javascript" data-trim style="font-size: 13px; line-height: 16px;">
+              const getPropX = obj => obj.x
+
+              for(var i=0; i<10000; i++) {
+                getPropX({ x: i })
+                getPropX({ x: i, y: i })
+                getPropX({ x: i, z: i })
+              }
+            </code>
+          </pre>
+          <pre>
+          <p class="fragment" style="font-size: 13px; line-height: 13px;">
+0x18eb24149772    18  488bf0         REX.W movq rsi,rax
+                  ;;; <@18,#13> stack-check
+0x18eb24149775    21  493ba5880a0000 REX.W cmpq rsp,[r13+0xa88]
+0x18eb2414977c    28  7305           jnc 35  (0x18eb24149783)
+0x18eb2414977e    30  e85d34efff     call StackCheck  (0x18eb2403cbe0)    ;; code: BUILTIN
+                  ;;; <@20,#13> lazy-bailout
+                  ;;; <@21,#13> gap
+0x18eb24149783    35  488b4510       REX.W movq rax,[rbp+0x10]
+                  ;;; <@22,#15> check-non-smi
+0x18eb24149787    39  a801           test al,0x1
+0x18eb24149789    41  0f8447000000   jz 118  (0x18eb241497d6)
+                  ;;; <@24,#16> <strong style="font-size: 16px; line-height: 16px; background-color: #ff4c00">check-maps</strong>
+0x18eb2414978f    47  49bad9bd9144b9130000 <strong style="font-size: 16px; line-height: 16px; background-color: #ff4c00">REX.W movq r10,0x13b94491bdd9</strong>    ;; object: 0x13b94491bdd9
+                                                                                Map(FAST_HOLEY_ELEMENTS)>
+0x18eb24149799    57  4c3950ff       REX.W cmpq [rax-0x1],r10
+0x18eb2414979d    61  7424           jz 99  (0x18eb241497c3)
+0x18eb2414979f    63  49ba89be9144b9130000 <strong style="font-size: 16px; line-height: 16px; background-color: #ff4c00">REX.W movq r10,0x13b94491be89</strong>    ;; object: 0x13b94491be89
+                                                                                Map(FAST_HOLEY_ELEMENTS)>
+0x18eb241497a9    73  4c3950ff       REX.W cmpq [rax-0x1],r10
+0x18eb241497ad    77  7414           jz 99  (0x18eb241497c3)
+0x18eb241497af    79  49bae1be9144b9130000 <strong style="font-size: 16px; line-height: 16px; background-color: #ff4c00">REX.W movq r10,0x13b94491bee1</strong>    ;; object: 0x13b94491bee1
+                                                                                Map(FAST_HOLEY_ELEMENTS)>
+0x18eb241497b9    89  4c3950ff       REX.W cmpq [rax-0x1],r10
+0x18eb241497bd    93  0f8518000000   jnz 123  (0x18eb241497db)
+                  ;;; <@26,#17> load-named-field
+0x18eb241497c3    99  8b401b         movl rax,[rax+0x1b]
+                  ;;; <@28,#21> smi-tag
+0x18eb241497c6   102  8bd8           movl rbx,rax
+0x18eb241497c8   104  48c1e320       REX.W shlq rbx, 32
+                  ;;; <@29,#21> gap
+0x18eb241497cc   108  488bc3         REX.W movq rax,rbx
+                  ;;; <@30,#19> return
+0x18eb241497cf   111  488be5         REX.W movq rsp,rbp
+0x18eb241497d2   114  5d             pop rbp
+0x18eb241497d3   115  c21000         ret 0x10
+                  ;;; -------------------- Jump table --------------------
+0x18eb241497d6   118  e82fc8bbff     call 0x18eb23d0600a     ;; deoptimization bailout 1
+0x18eb241497db   123  e834c8bbff     call 0x18eb23d06014     ;; deoptimization bailout 2
+          </p>
+          </pre>
+
+        </div>
+      </div>
+      <aside class="notes">
+        Hot function  <br />
+        IC is a first level of optimisation <br />
+        Maps are V8 thing not a part of JS Spec
+      </aside>
+    </section>
+
+    <section>
       <div style="display: flex; align-items: stretch; width: 100%">
         <blockquote flex style="font-size: 16px; text-align: left">
           <emu-clause id="sec-ordinaryset" aoid="OrdinarySet">
@@ -286,7 +749,6 @@
       </div>
     </section>
 
-
     <section>
       <div style="display: flex; align-items: stretch; width: 100%">
         <pre style="margin: 10px;">
@@ -300,6 +762,17 @@
           </code>
         </pre>
       </div>
+      <aside class="notes">
+        Remember to make it worth optimizing because code which is called only once won't be optimized
+      </aside>
+    </section>
+
+    <section>
+      <h3>Do not optimize code per engine!!!</h3>
+      <p class="fragment">Code readability gets worse</p>
+      <p class="fragment">Each engine is different</p>
+      <p class="fragment">V8 is changing on daily basis :D</p>
+      <p class="fragment">Users use different engines either way</p>
       <aside class="notes">
         Remember to make it worth optimizing because code which is called only once won't be optimized
       </aside>

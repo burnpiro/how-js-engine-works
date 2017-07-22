@@ -1,9 +1,7 @@
-function add(a, b){
-    return a + b;
-}
+const getPropX = obj => obj.x
 
-var sum = 0
-
-for(var i=0; i<1000; i++) {
- sum = add(sum,1)
+for(var i=0; i<10000; i++) {
+  getPropX({ x: i })
+  getPropX({ x: i, y: i })
+  getPropX({ x: i, z: i })
 }
